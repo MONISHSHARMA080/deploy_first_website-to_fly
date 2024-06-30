@@ -50,3 +50,7 @@ port = 4697
 memory = "1gb"
 cpu_kind = "shared"
 cpus = 1
+
+[[mounts]]
+source="vol_42gzjzmle52wml9v"
+destination="/both/src/routes"

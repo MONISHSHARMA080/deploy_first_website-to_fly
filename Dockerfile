@@ -2,6 +2,7 @@ FROM golang:1.22 as go-builder
 WORKDIR /app
 COPY both/a.go ./
 COPY both/go.sum ./
+COPY both/.env .
 COPY both/go.mod  ./
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -x -o go_server
@@ -20,6 +21,7 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY both/src/ ./src/
 COPY both/static/ ./static/
+COPY both/.env ./
 
 COPY --from=go-builder /app/go_server /app/go_server
 COPY ./both/entrypoint.sh /app/
