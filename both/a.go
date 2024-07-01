@@ -502,11 +502,11 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 	// creating the temp dir
 	error_from_temp_dir := create_dir("src/routes/"+userName, "temp")
 	if error_from_temp_dir != nil {
-		print(error_from_temp_dir.Error(), "\n\n")
+		print("error creating the creating the temp dir",error_from_temp_dir.Error(), "\n\n")
 		// var err_if_dir_is_already_there  = "mkdir src/routes/"+userName+"/temp: file exists"
 		var err_if_dir_is_already_there = "mkdir src/routes/" + userName + ": file exists" // ---bro i don't get it the print statement shows/tells
 		// why does this without /temp works , idk
-		if error.Error() != err_if_dir_is_already_there {
+		if error_from_temp_dir.Error() != err_if_dir_is_already_there {
 			print("in the error which  is not about same --temp --dir ")
 			return_json_error(w, http.StatusInternalServerError, error_response_json_for_django_backend{
 				Error_message:        "failed to create the temp dir for the "+userName,
