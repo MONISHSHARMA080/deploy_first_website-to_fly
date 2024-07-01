@@ -472,19 +472,22 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 			StatusCode:           http.StatusNotAcceptable,
 			Username:             userName,
 		})
-
+		
 		// ------------------------ potential error ------------------------------------
 		// >> (<-means done) i should tell my backend this error is for it , meaning  it has not provided the username , user should not be alerted
 		// ------------------------ potential error ------------------------------------
 		return
 	}
+	print("username gotten form django in the create_temp_and_name_dir_for_user is  ",userName)
 	// -----------------
 
-	error := create_dir("src/routes", userName)
-	if error != nil {
+	errorr := create_dir("src/routes", userName)
+	if errorr != nil {
+		println(" errorr in making the src/routes dir is -- ", errorr.Error())
 		var err_if_dir_is_already_there = "mkdir src/routes/" + userName + ": file exists"
 		fmt.Printf("here %s \n\n", userName)
-		if error.Error() != err_if_dir_is_already_there {
+		if errorr.Error() != err_if_dir_is_already_there {
+			println(" errorr in making the src/routes dir, that is not user file exists is -- ", errorr.Error())
 			return_json_error(w, http.StatusInternalServerError, error_response_json_for_django_backend{
 				Error_message:        "failed to create the username dir  ",
 				Message_for_the_user: "userName not provided, if the error continue  you should try logging in again  ",
