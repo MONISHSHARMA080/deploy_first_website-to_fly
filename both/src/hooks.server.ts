@@ -2,11 +2,12 @@ import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith('/api/')) {
-    console.log("event.url--",event.url.href);
+    // console.log("event.url--",event.url.href);
     
     const apiPath = event.url.href.slice(25); // Remove '/api' prefix
     const goBackendUrl = `http://localhost:4696${apiPath}`;
-    console.log("the backend url for req-->>",goBackendUrl);
+    
+    // console.log("the backend url for req-->>",goBackendUrl);
     
 
     const response = await fetch(goBackendUrl, {
