@@ -5,7 +5,7 @@ export default defineConfig({
 	plugins: [sveltekit()]
 	,server: {
 		host: '0.0.0.0', // listen on all IP addresses
-		port: 5173, // default Vite dev server port
+		port: process.env.PORT || 5173, // default Vite dev server port
 		hmr: {
 		overlay: false,
 		},
