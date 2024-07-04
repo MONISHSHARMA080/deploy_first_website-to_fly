@@ -5,7 +5,7 @@ services:
     environment:
       - SVELTE_URL_WITH_SLASH=https://generate-website.fly.dev/
     ports:
-      - "80:5173"
+      - "80:80"
       - "4696:4696"
     command: /app/entrypoint.sh
     # networks:
