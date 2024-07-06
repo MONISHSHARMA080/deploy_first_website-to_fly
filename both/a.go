@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -546,7 +547,8 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	print("username gotten form django in the create_temp_and_name_dir_for_user is  -->",userName)
-	print("\n\n url--query    -->",r.URL.Scheme)
+	print("\n\n url--query    -->",userName)
+	print(" \n upon removing the None-->>",strings.TrimSuffix(userName, "None"))
 
 	print("\n request gotten (r.URL.RawQuery)  -->",r.URL.Query().Get("userName"))
 	// -----------------
