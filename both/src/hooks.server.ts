@@ -2,9 +2,9 @@ import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith('/api/')) {
-    // console.log("event.url--",event.url.href);
+    console.log("event.url--",event.url);
 
-    console.log("index of ", event.url.href.slice(event.url.href.indexOf('api/') + 3 ));
+    console.log("index of ", event.url.href.slice(event.url.href.indexOf('api/') + 3 ), "\n\n");
     
     // what is it -->> give me the index of api/  and + 3 (letter in api) and start from '/' and go to the end
     const apiPath = event.url.href.slice(event.url.href.indexOf('api/') + 3 ); // Remove '/api' prefix
