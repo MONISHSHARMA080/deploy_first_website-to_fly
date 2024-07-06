@@ -580,10 +580,10 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 		// why does this without /temp works , idk
 		if error_from_temp_dir.Error() != err_if_dir_is_already_there {
 			print("in the error which  is not about same --temp --dir ")
-			return_json_error(w, http.StatusInternalServerError, error_response_json_for_django_backend{
+			return_json_error(w, http.StatusOK, error_response_json_for_django_backend{
 				Error_message:        "failed to create the temp dir for the "+userName,
 				Message_for_the_user: "Oops! an error occured on our side while creating you account your account , Loggin again should probally solve it  ",
-				StatusCode:           http.StatusInternalServerError,
+				StatusCode:           http.StatusOK,
 				Username:             userName,
 			})
 			return
