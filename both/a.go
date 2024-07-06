@@ -546,7 +546,7 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	print("username gotten form django in the create_temp_and_name_dir_for_user is  -->",userName)
-	print("\n\n url--query    -->",query)
+	print("\n\n url--query    -->",r.URL.Scheme)
 
 	print("\n request gotten (r.URL.RawQuery)  -->",r.URL.Query().Get("userName"))
 	// -----------------
