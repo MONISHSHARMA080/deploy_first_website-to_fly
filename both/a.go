@@ -560,10 +560,10 @@ func create_temp_and_name_dir_for_user(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("here %s \n\n", userName)
 		if errorr.Error() != err_if_dir_is_already_there {
 			println(" errorr in making the src/routes dir, that is not user file exists is -- ", errorr.Error())
-			return_json_error(w, http.StatusInternalServerError, error_response_json_for_django_backend{
+			return_json_error(w, http.StatusOK, error_response_json_for_django_backend{
 				Error_message:        "failed to create the username dir  ",
 				Message_for_the_user: "userName not provided, if the error continue  you should try logging in again  ",
-				StatusCode:           http.StatusInternalServerError,
+				StatusCode:           http.StatusOK,
 				Username:             userName,
 			})  
 			return
