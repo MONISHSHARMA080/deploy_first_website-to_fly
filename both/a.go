@@ -13,6 +13,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type TreeNode struct {
+	Name     string     `json:"name"`
+	IsDir    bool       `json:"isDir"`
+	Children []TreeNode `json:"children,omitempty"`
+}
+
 type LLMResponse struct {
 	LLMResponse string `json:"llm_response"`
 }
@@ -57,6 +63,67 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 
 	io.WriteString(w, "Hello, World from me !\n")
 }
+
+func serveDirectoryTree(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+        http.Error(w, "Only GET method is allowed on this route", http.StatusMethodNotAllowed)
+        return
+    }
+
+    w.Header().Set("Content-Type", "text/plain")
+
+    root := "src"
+    
+    var printTree func(string, string) error
+    printTree = func(path string, prefix string) error {
+        dir, err := os.Open(path)
+        if err != nil {
+            return err
+        }
+        defer dir.Close()
+
+        entries, err := dir.ReadDir(-1)
+        if err != nil {
+            return err
+        }
+
+        for i, entry := range entries {
+            isLast := i == len(entries)-1
+            currentPrefix := prefix
+            if isLast {
+                line := fmt.Sprintf("%s└── %s\n", prefix, entry.Name())
+                fmt.Fprint(w, line)
+                fmt.Print(line)  // Print to terminal
+                currentPrefix += "    "
+            } else {
+                line := fmt.Sprintf("%s├── %s\n", prefix, entry.Name())
+                fmt.Fprint(w, line)
+                fmt.Print(line)  // Print to terminal
+                currentPrefix += "│   "
+            }
+
+            if entry.IsDir() {
+                err := printTree(filepath.Join(path, entry.Name()), currentPrefix)
+                if err != nil {
+                    return err
+                }
+            }
+        }
+
+        return nil
+    }
+
+    fmt.Println("Directory tree of src:")  // Print header to terminal
+    err := printTree(root, "")
+    if err != nil {
+        errMsg := "Error printing directory tree: " + err.Error()
+        http.Error(w, errMsg, http.StatusInternalServerError)
+        fmt.Println(errMsg)  // Print error to terminal
+        return
+    }
+}
+
+
 func get_all_the_projects_of_the_user(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet { //-------------- change it -------------------
 		print("Oh  my god")
@@ -561,6 +628,7 @@ if erro != nil {
 
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
+	http.HandleFunc("/tree", serveDirectoryTree)
 	http.HandleFunc("/create_temp_and_name_dir_for_user", create_temp_and_name_dir_for_user) // done in django 
 	http.HandleFunc("/llm_response_write_it_in_temp_dir", llm_response_write_it_in_temp_dir) // done in django 
 	http.HandleFunc("/host_the_temp_one_in_a_production_site", host_the_temp_one_in_a_production_site) // done in django 
