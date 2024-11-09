@@ -3,7 +3,7 @@ services:
   app:
     build: .
     environment:
-      - SVELTE_URL_WITH_SLASH=https://deployfirstwebsite-tofly-production.up.railway.app/
+      - SVELTE_URL_WITH_SLASH=https://first-website-backend-900694380542.asia-south1.run.app/
     ports:
       - "5173:5173"
       - "4696:4696"
